@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "CyberAwarenessBot/1.0.0": {
+        "runtime": {
+          "CyberAwarenessBot.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CyberAwarenessBot/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

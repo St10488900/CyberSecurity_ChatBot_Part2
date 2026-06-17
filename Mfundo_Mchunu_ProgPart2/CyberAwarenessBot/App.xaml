@@ -1,0 +1,191 @@
+<Application x:Class="CyberAwarenessBot.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+
+        <!-- ════════════════════════════════════════════════════════════
+             DESIGN TOKENS — "Trusted Console" theme
+             A light, professional security-dashboard palette: navy for
+             authority, blue for trust/action, teal for safe/positive
+             confirmation, and a single red reserved strictly for errors.
+        ════════════════════════════════════════════════════════════ -->
+
+        <!-- Surfaces -->
+        <SolidColorBrush x:Key="SurfacePage"     Color="#F4F7FB"/>
+        <SolidColorBrush x:Key="SurfaceCard"     Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="SurfaceRail"     Color="#EEF2F8"/>
+        <SolidColorBrush x:Key="SurfaceHeader"   Color="#0B1F3A"/>
+        <SolidColorBrush x:Key="SurfaceInput"    Color="#FFFFFF"/>
+
+        <!-- Brand / Accent -->
+        <SolidColorBrush x:Key="BrandNavy"       Color="#0B1F3A"/>
+        <SolidColorBrush x:Key="BrandBlue"       Color="#2563EB"/>
+        <SolidColorBrush x:Key="BrandBlueHover"  Color="#1D4ED8"/>
+        <SolidColorBrush x:Key="BrandTeal"       Color="#0EA5A0"/>
+        <SolidColorBrush x:Key="BrandAmber"      Color="#D97706"/>
+        <SolidColorBrush x:Key="BrandRed"        Color="#DC2626"/>
+
+        <!-- Text -->
+        <SolidColorBrush x:Key="TextPrimary"     Color="#0F172A"/>
+        <SolidColorBrush x:Key="TextSecondary"   Color="#475569"/>
+        <SolidColorBrush x:Key="TextMuted"       Color="#94A3B8"/>
+        <SolidColorBrush x:Key="TextOnNavy"      Color="#E8EEF9"/>
+        <SolidColorBrush x:Key="TextOnNavyMuted" Color="#9FB3D1"/>
+
+        <!-- Borders / Lines -->
+        <SolidColorBrush x:Key="BorderSoft"      Color="#E2E8F0"/>
+        <SolidColorBrush x:Key="BorderNavy"      Color="#16345C"/>
+
+        <!-- ════════════════════════════════════════════════════════════
+             PRIMARY BUTTON — solid brand blue, used for SEND
+        ════════════════════════════════════════════════════════════ -->
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background"      Value="{StaticResource BrandBlue}"/>
+            <Setter Property="Foreground"      Value="White"/>
+            <Setter Property="FontFamily"      Value="Segoe UI Semibold"/>
+            <Setter Property="FontSize"        Value="13"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding"         Value="18,8"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="{StaticResource BrandBlueHover}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="#1E40AF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ════════════════════════════════════════════════════════════
+             HEADER BUTTON — ghost style for the dark navy header bar
+        ════════════════════════════════════════════════════════════ -->
+        <Style x:Key="HeaderButton" TargetType="Button">
+            <Setter Property="Background"      Value="#16345C"/>
+            <Setter Property="Foreground"      Value="{StaticResource TextOnNavy}"/>
+            <Setter Property="FontFamily"      Value="Segoe UI"/>
+            <Setter Property="FontSize"        Value="12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding"         Value="14,7"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="#1F4275"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HeaderButtonDanger" TargetType="Button" BasedOn="{StaticResource HeaderButton}">
+            <Setter Property="Foreground" Value="#FCA5A5"/>
+        </Style>
+
+        <!-- ════════════════════════════════════════════════════════════
+             TOPIC BUTTON — quiet rail buttons for the sidebar
+        ════════════════════════════════════════════════════════════ -->
+        <Style x:Key="TopicButton" TargetType="Button">
+            <Setter Property="Background"      Value="White"/>
+            <Setter Property="Foreground"      Value="{StaticResource TextPrimary}"/>
+            <Setter Property="FontFamily"      Value="Segoe UI"/>
+            <Setter Property="FontSize"        Value="12.5"/>
+            <Setter Property="BorderBrush"     Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding"         Value="12,9"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="#EFF6FF"/>
+                                <Setter TargetName="Bg" Property="BorderBrush" Value="#BFDBFE"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ════════════════════════════════════════════════════════════
+             INPUT BOX — clean light field with blue focus ring
+        ════════════════════════════════════════════════════════════ -->
+        <Style x:Key="InputBox" TargetType="TextBox">
+            <Setter Property="Background"       Value="{StaticResource SurfaceInput}"/>
+            <Setter Property="Foreground"       Value="{StaticResource TextPrimary}"/>
+            <Setter Property="CaretBrush"       Value="{StaticResource BrandBlue}"/>
+            <Setter Property="FontFamily"       Value="Segoe UI"/>
+            <Setter Property="FontSize"         Value="13.5"/>
+            <Setter Property="BorderBrush"      Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness"  Value="1.5"/>
+            <Setter Property="Padding"          Value="14,10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource BrandBlue}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ════════════════════════════════════════════════════════════
+             RAIL CARD — white inspector cards used in the sidebar
+        ════════════════════════════════════════════════════════════ -->
+        <Style x:Key="RailCard" TargetType="Border">
+            <Setter Property="Background"      Value="White"/>
+            <Setter Property="BorderBrush"     Value="{StaticResource BorderSoft}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius"    Value="10"/>
+            <Setter Property="Padding"         Value="14,12"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#0B1F3A" Opacity="0.06" BlurRadius="14" ShadowDepth="2" Direction="270"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Application.Resources>
+</Application>

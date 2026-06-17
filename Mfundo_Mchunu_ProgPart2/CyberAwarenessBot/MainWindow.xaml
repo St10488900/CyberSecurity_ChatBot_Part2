@@ -1,0 +1,249 @@
+<Window x:Class="CyberAwarenessBot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShieldBot — Cybersecurity Awareness Console"
+        Height="780" Width="1040"
+        MinHeight="640" MinWidth="860"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource SurfacePage}"
+        FontFamily="Segoe UI">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>   <!-- Header -->
+            <RowDefinition Height="*"/>      <!-- Main content -->
+            <RowDefinition Height="Auto"/>   <!-- Input bar -->
+            <RowDefinition Height="Auto"/>   <!-- Status bar -->
+        </Grid.RowDefinitions>
+
+        <!-- ═══════════════════════════════════════════════════════ HEADER ══ -->
+        <Border Grid.Row="0"
+                Background="{StaticResource SurfaceHeader}"
+                Padding="24,16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Brand mark + title -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+
+                    <!-- Geometric shield glyph, drawn — not an emoji -->
+                    <Viewbox Width="34" Height="34" Margin="0,0,14,0">
+                        <Canvas Width="34" Height="34">
+                            <Path Data="M17,1 L31,7 L31,16 C31,25 25,30 17,33 C9,30 3,25 3,16 L3,7 Z"
+                                  Fill="#2563EB"/>
+                            <Path Data="M17,1 L31,7 L31,16 C31,25 25,30 17,33 C9,30 3,25 3,16 L3,7 Z"
+                                  Stroke="#0EA5A0" StrokeThickness="1.2" Fill="Transparent"/>
+                            <Path Data="M10,17 L15,22 L24,11"
+                                  Stroke="White" StrokeThickness="2.6"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                  StrokeLineJoin="Round" Fill="Transparent"/>
+                        </Canvas>
+                    </Viewbox>
+
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock Text="ShieldBot"
+                                   Foreground="White"
+                                   FontFamily="Segoe UI Semibold"
+                                   FontSize="20"/>
+                        <TextBlock Text="Cybersecurity Awareness Console"
+                                   Foreground="{StaticResource TextOnNavyMuted}"
+                                   FontSize="11.5"
+                                   Margin="0,2,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Header buttons -->
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Button x:Name="BtnPlayGreeting"
+                            Content="▶  Play greeting"
+                            Style="{StaticResource HeaderButton}"
+                            Click="BtnPlayGreeting_Click"
+                            Margin="0,0,8,0"
+                            ToolTip="Replay the voice greeting"/>
+                    <Button x:Name="BtnClearChat"
+                            Content="Clear chat"
+                            Style="{StaticResource HeaderButtonDanger}"
+                            Click="BtnClearChat_Click"
+                            ToolTip="Clear conversation history"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ═══════════════════════════════════════════════════ MAIN AREA ══ -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>        <!-- Chat area -->
+                <ColumnDefinition Width="260"/>      <!-- Side panel -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Chat display -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource SurfacePage}">
+                <ScrollViewer x:Name="ChatScrollViewer"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              Padding="22,18">
+                    <StackPanel x:Name="ChatPanel"
+                                Orientation="Vertical"/>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Side panel ("Inspector") -->
+            <Border Grid.Column="1"
+                    Background="{StaticResource SurfaceRail}"
+                    BorderBrush="{StaticResource BorderSoft}"
+                    BorderThickness="1,0,0,0"
+                    Padding="16,18">
+                <StackPanel Orientation="Vertical">
+
+                    <TextBlock Text="SESSION"
+                               Foreground="{StaticResource TextMuted}"
+                               FontSize="10.5"
+                               FontFamily="Segoe UI Semibold"
+                               Margin="2,0,0,10"/>
+
+                    <!-- User info card -->
+                    <Border Style="{StaticResource RailCard}" Margin="0,0,0,12">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <Ellipse Width="8" Height="8" Fill="{StaticResource BrandBlue}" VerticalAlignment="Center"/>
+                                <TextBlock Text="USER"
+                                           Foreground="{StaticResource TextSecondary}"
+                                           FontSize="11"
+                                           FontFamily="Segoe UI Semibold"
+                                           Margin="6,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock x:Name="TxtUserName"
+                                       Text="Name: —"
+                                       Foreground="{StaticResource TextPrimary}"
+                                       FontSize="13"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,3"/>
+                            <TextBlock x:Name="TxtUserTopic"
+                                       Text="Topic: —"
+                                       Foreground="{StaticResource TextSecondary}"
+                                       FontSize="12.5"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Quick topics -->
+                    <TextBlock Text="QUICK TOPICS"
+                               Foreground="{StaticResource TextMuted}"
+                               FontSize="10.5"
+                               FontFamily="Segoe UI Semibold"
+                               Margin="2,4,0,8"/>
+
+                    <Button Content="🔑  Passwords"     Style="{StaticResource TopicButton}" Click="QuickTopic_Click" Tag="password"       Margin="0,0,0,6" HorizontalAlignment="Stretch"/>
+                    <Button Content="🎣  Phishing"       Style="{StaticResource TopicButton}" Click="QuickTopic_Click" Tag="phishing"       Margin="0,0,0,6" HorizontalAlignment="Stretch"/>
+                    <Button Content="🛡  Safe browsing"  Style="{StaticResource TopicButton}" Click="QuickTopic_Click" Tag="safe browsing"  Margin="0,0,0,6" HorizontalAlignment="Stretch"/>
+                    <Button Content="⚠  Scams"          Style="{StaticResource TopicButton}" Click="QuickTopic_Click" Tag="scam"           Margin="0,0,0,6" HorizontalAlignment="Stretch"/>
+                    <Button Content="🦠  Malware"        Style="{StaticResource TopicButton}" Click="QuickTopic_Click" Tag="malware"        Margin="0,0,0,6" HorizontalAlignment="Stretch"/>
+                    <Button Content="🔒  Privacy"        Style="{StaticResource TopicButton}" Click="QuickTopic_Click" Tag="privacy"        Margin="0,0,0,6" HorizontalAlignment="Stretch"/>
+                    <Button Content="🔐  2FA / MFA"      Style="{StaticResource TopicButton}" Click="QuickTopic_Click" Tag="2fa"            Margin="0,0,0,6" HorizontalAlignment="Stretch"/>
+                    <Button Content="🔄  Updates"        Style="{StaticResource TopicButton}" Click="QuickTopic_Click" Tag="update"         Margin="0,0,0,6" HorizontalAlignment="Stretch"/>
+
+                    <!-- Sentiment indicator -->
+                    <Border Style="{StaticResource RailCard}" Margin="0,12,0,12">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <Ellipse Width="8" Height="8" Fill="{StaticResource BrandAmber}" VerticalAlignment="Center"/>
+                                <TextBlock Text="MOOD DETECTED"
+                                           Foreground="{StaticResource TextSecondary}"
+                                           FontSize="11"
+                                           FontFamily="Segoe UI Semibold"
+                                           Margin="6,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock x:Name="TxtSentiment"
+                                       Text="neutral"
+                                       Foreground="{StaticResource TextPrimary}"
+                                       FontSize="14"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Conversation history count -->
+                    <Border Style="{StaticResource RailCard}">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <Ellipse Width="8" Height="8" Fill="{StaticResource BrandTeal}" VerticalAlignment="Center"/>
+                                <TextBlock Text="ACTIVITY"
+                                           Foreground="{StaticResource TextSecondary}"
+                                           FontSize="11"
+                                           FontFamily="Segoe UI Semibold"
+                                           Margin="6,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock x:Name="TxtMessageCount"
+                                       Text="Messages: 0"
+                                       Foreground="{StaticResource TextPrimary}"
+                                       FontFamily="Cascadia Mono, Consolas"
+                                       FontSize="13"/>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <!-- ═══════════════════════════════════════════════════ INPUT BAR ══ -->
+        <Border Grid.Row="2"
+                Background="White"
+                BorderBrush="{StaticResource BorderSoft}"
+                BorderThickness="0,1,0,0"
+                Padding="22,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="TxtInput"
+                         Grid.Column="0"
+                         Style="{StaticResource InputBox}"
+                         VerticalAlignment="Center"
+                         KeyDown="TxtInput_KeyDown"
+                         TextChanged="TxtInput_TextChanged"
+                         ToolTip="Type your message here..."
+                         Margin="0,0,12,0"/>
+
+                <Button x:Name="BtnSend"
+                        Grid.Column="1"
+                        Content="Send  →"
+                        Style="{StaticResource PrimaryButton}"
+                        Click="BtnSend_Click"
+                        Width="110"
+                        Height="40"/>
+            </Grid>
+        </Border>
+
+        <!-- ═══════════════════════════════════════════════════ STATUS BAR ══ -->
+        <Border Grid.Row="3"
+                Background="{StaticResource SurfaceRail}"
+                BorderBrush="{StaticResource BorderSoft}"
+                BorderThickness="0,1,0,0"
+                Padding="22,7">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="TxtStatus"
+                           Grid.Column="0"
+                           Text="Ready — type a message or select a topic"
+                           Foreground="{StaticResource TextSecondary}"
+                           FontSize="11.5"
+                           VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1"
+                           Text="Press ENTER to send"
+                           Foreground="{StaticResource TextMuted}"
+                           FontSize="11.5"
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>
